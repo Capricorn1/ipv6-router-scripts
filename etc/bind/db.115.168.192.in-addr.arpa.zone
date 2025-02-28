@@ -1,0 +1,39 @@
+$TTL	86400
+@	SOA     @       gateway.home. (
+                        2024012408 ; serial
+                        28800 ; refresh
+                        7200 ; retry
+                        604800 ; expire
+                        1440 ; minimum ttl
+                        )
+
+	NS	gateway.home.
+0	PTR	subnet0.home.
+1	PTR	lan-if.home.
+;
+46	PTR	steamdeckdock.home.
+47	PTR	steamdeckwl.home.
+48	PTR	mylaptop.home.
+49	PTR	mygamingpc.home.
+50	PTR	fileserver.home.
+51	PTR	iphone.home.
+52	PTR	orbi.home.
+53	PTR	ecobee3.home.
+54	PTR	samsungs23u.home.
+55	PTR	samsungs24.home.
+56	PTR	famroomecho.home.
+57	PTR	officeecho.home.
+58	PTR	galaxytab.home.
+59	PTR	frontlights.home.
+60	PTR	kindle.home.
+61	PTR	roku.home.
+62	PTR	vpn-tunnel.home.
+63	PTR	wirelessplug1.home.
+64	PTR	orbisat.home.
+65	PTR	guestgamer.home.
+66	PTR	wirelessplug2.home.
+67	PTR	nintendoswitch.home.
+68	PTR	printer.home.
+;
+255	PTR	broadcast.home.
+

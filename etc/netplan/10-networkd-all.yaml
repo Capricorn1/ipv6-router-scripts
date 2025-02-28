@@ -1,0 +1,30 @@
+# This file sets the basic networking information for the our firewall/router
+# enp2s0 is the WAN interface
+# enp4s0 is the LAN interface
+# The wireless LAN, wlp3s0, is not used, but should be set up as a secondary LAN 
+# interface if ever used.
+# Our IPv4 LAN is on the 192.168.115.0/24 subnet
+
+network:
+  renderer: networkd
+  ethernets:
+    enp2s0:
+      link-local: [ ipv6 ]
+      dhcp4: true
+      dhcp6: true
+      accept-ra: true
+      ipv6-privacy: false
+      nameservers: 
+        addresses: [8.8.8.8,8.8.4.4,1.1.1.1,"2001:4860:4860::8888","2001:4860:4860::8844"]
+    enp4s0:
+      link-local: [ ipv6 ]
+      dhcp4: false
+      dhcp6: false
+      addresses: [192.168.115.1/24,"2600:4040:4026:301:0:0:0:1/64"]
+      accept-ra: false
+      ipv6-privacy: false
+      nameservers:
+        addresses: [192.168.115.1,8.8.8.8,8.8.4.4,"2001:4860:4860::8888","2001:4860:4860::8844"]
+        search: [ home ]
+  version: 2
+  wifis: {}
