@@ -140,14 +140,26 @@
         //     "space": "dhcp6",
         //     "data": "2001:db8:2::45, 2001:db8:2::100"
         // }
-        // but it's a lot of writing, so it's easier to do this instead:
+        // but it's a lot of writing, so it's easier to do the following instead.
+
+	// Note that originally this was with the XXXX : XXXX : XXXX : XXXX : : 1 string 
+	// included (without the extra spaces added so the sed editing to this template
+	// doesn't wipe out this comment). However, Chrome seemed to look up google 
+	// queries much slower when local DNS server is bypassed.
+        // {
+        //    "name": "dns-servers",
+        //                "code": 23,
+        //    "data": "XXXXi : XXXX : XXXX : XXXX : : 1, 2001:4860:4860:0:0:0:0:8888, 2001:4860:4860:0:0:0:0:8844, 2606:4700:4700::1111"
+        // },
+
         {
             "name": "dns-servers",
 			"code": 23,
-            "data": "XXXX:XXXX:XXXX:XXXX::1, 2001:4860:4860:0:0:0:0:8888, 2001:4860:4860:0:0:0:0:8844, 2606:4700:4700::1111"
+            "data": "2001:4860:4860:0:0:0:0:8888, 2001:4860:4860:0:0:0:0:8844, 2606:4700:4700::1111"
         },
 
-		// Domain search is also a popular option. It tells the client to
+	
+	// Domain search is also a popular option. It tells the client to
         // attempt to resolve names within those specified domains. For
         // example, name "foo" would be attempted to be resolved as
         // foo.mydomain.example.com and if it fails, then as foo.example.com
