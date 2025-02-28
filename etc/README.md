@@ -1,5 +1,7 @@
+# Structure and Contents
 The files in this directory are expected to be installed in their corresponding directories in the /etc directory. They include:
 - bind: The portions of the DNS (named.service) configuration that do not change when the IPv6 prefix changes. They can be treated as "fixed" files and are included here only to present a complete example. Files like db.0, db.empty, and zones.rfc1918 are created during the installation of bind9 and are not included in this example.
-- netplan: Includes an example YAML file for network configuration that ties in with the rest of the example. Notably, it defines the interfaces and that the (systemd-)networkd renderer is used
+- netplan: Includes an example YAML file for network configuration that ties in with the rest of the example. Notably, it defines the interfaces and that the (systemd-)networkd renderer is used.
 - networkd-dispatcher: Contains the routable.d directory of "parent" scripts that, in turn, run scripts from the opt (/opt) directory when the routable network status changes. These scripts run in order by name whenever the system is booted, the DHCP lease from Verizon expires, or some other condition may have caused the delegated prefix to change.
 - systemd:  Exists only to house the network/10-netplan-enp2s0.network.d/override.conf directories and lone file. The override.conf contains the `SendRelease-false` DHCPv6 directive to NOT release the delegated prefix when the WAN interface is restarted. This results in the same delegated prefix being returned by Verizon's DHCP6 server for an extended period.
+# Details
