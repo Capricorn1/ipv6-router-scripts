@@ -95,7 +95,14 @@ DNS=2001:4860:4860::8844
 [DHCP]
 RouteMetric=100
 UseMTU=true
+```
+The name of the subdirectory where we place the override configuration file is not arbitrary. In our example, the `etc/systemd/network/10-netplan-enp2s0.network.d/override.conf` file would be copied into the /etc directory with intermediate directories created as needed. The `/etc/systemd/network portion` is fixed, however, the `10-netplan-enp2s0.network.d` subdirectory must match the name of the runtime file (for the interface we are overriding) in `/run/systemd/network` with a `.d` appended. Any files in that directory that end with `.conf` will be read and merged with the ones in the run directory. The systemd.network man page lists other potential locations and file names for containing override parameters, but the .d directory with an *.conf file seems to be the only reliable way. The contents of the override file are:
 
 ```
+root@fw2404:~/Projects/ipv6-router-scripts/etc/systemd/network/10-netplan-enp2s0.network.d$ more override.conf
+[Match]
+Name=enp2s0
 
-The name of the subdirectory where we place the override configuration file is not arbitrary. In our example, the `etc/systemd/network/10-netplan-enp2s0.network.d/override.conf` file would be copied into the /etc directory with intermediate directories created as needed. The `/etc/systemd/network portion` is fixed, however, the `10-netplan-enp2s0.network.d` subdirectory must match the name of the runtime file (for the interface we are overriding) in `/run/systemd/network` with a `.d` appended. Any files in that directory that end with `.conf` will be read and merged with the ones in the run directory. The systemd.network man page lists other potential locations and file names for containing override parameters, but the .d directory with an *.conf file seems to be the only reliable way.
+[DHCPv6]
+SendRelease=false
+```
