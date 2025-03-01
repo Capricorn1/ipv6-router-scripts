@@ -1,3 +1,5 @@
+# etc Directory
+
 # Structure and Contents
 
 The files in this directory are expected to be installed in their corresponding directories in the /etc directory. They include:
@@ -50,7 +52,7 @@ The name of this file is arbitrary, but it will be used to create runtime networ
 
 ## The networkd-dispatcher Directory
 
-This directory contains the `routable.d` subdirectory. The scripts in that subdirectory are meant to be copied into the actual `/etc/networkd-dispatcher/routable.d` directory. The `networkd-dispatcher.service` calls the scripts in that directory (in order by name) when the network state enters the routable state. For IPv6 networking, this occurs when a prefix is delegated, such as when the router is rebooted or `netplan apply` is executed. These are "parent" scripts that, in turn, call scripts in the `(/)opt/ipv6-configuration` directory to configure the IPv6 WAN and LAN IP addresses, the IPv4 and IPv6 firewall rules, the DHCP6 configuration, and the DNS configuration. These scripts check to make sure they are being called when the WAN interface becomes routable. Otherwise, the scripts would be call twice - once for the LAN and WAN interfaces becoming routable. On my system, the LAN interface becomes routable before the WAN interface (and before the prefix delegation has occurred).
+This directory contains the `routable.d` subdirectory. The scripts in that subdirectory are meant to be copied into the actual `/etc/networkd-dispatcher/routable.d` directory. The `networkd-dispatcher.service` calls the scripts in that directory (in order by name) when the network state enters the routable state. For IPv6 networking, this occurs when a prefix is delegated, such as when the router is rebooted or `netplan apply` is executed. These are "parent" scripts that, in turn, call scripts in the `(/)opt/ipv6-configuration` directory to configure the IPv6 WAN and LAN IP addresses, the IPv4 and IPv6 firewall rules, the DHCP6 configuration, and the DNS configuration. These scripts check to make sure they are being called when the WAN interface becomes routable. Otherwise, the scripts would be call twice - once for the LAN and WAN interfaces becoming routable. On my system, the LAN interface becomes routable before the WAN interface (and before the prefix delegation has occurred). The script names and order in which the scripts are run is:
 ```
 root@fw2404:~/Projects/ipv6-router-scripts/etc/networkd-dispatcher/routable.d$ ll
 total 20
@@ -63,7 +65,7 @@ total 20
 
 ## The systemd Directory
 
-This directory does not contain bash scripts. Instead it contains one configuration file that sets the `SendRelease=false` parameter for the DHCPv6 client that talks to the Verizon DHCP6 server. That parameter tells our DHCP client to not send the release directive when the WAN interface is restarted. For some time period, our router will get the same because this is set. It is not guaranteed to be the same forever, but since setting this parameter my router has gotten the same prefix delegation for months.
+This directory does not contain bash scripts. Instead it contains one configuration file that sets the `SendRelease=false` parameter for the DHCPv6 client that talks to the Verizon DHCP6 server. That parameter tells our DHCP client to not send the release directive (DHCPRELEASE) when the WAN interface is shut down and restarted. For some time period, our router will get the same because this is set. It is not guaranteed to be the same forever, but since setting this parameter my router has gotten the same prefix delegation for months.
 
 The netplan directory section above mentioned that Netplan creates runtime files that are based on the name and contents of the YAML configuration file. In our example, the directories are found in the `/run/systemd/network` directory as the files `10-netplan-enp2s0.network` and `10-netplan-enp4s0.network`.
 
