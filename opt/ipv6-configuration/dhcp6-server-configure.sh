@@ -64,7 +64,7 @@ fi
 # We don't need the WAN IP address for anything. We just need for it to be set before 
 # continuing.
 
-# The LAN IP can be any of the other 254 available /64 subnets. 
+# The LAN IP can be any of the other 255 available /64 subnets. 
 # First, we verify that address was set by an earlier configuration script.
 CURRENT_LAN_IP=$(/sbin/ip -o -6 addr list $LAN_IF | egrep -v fe80 | awk '{print $4}')
 

@@ -110,7 +110,7 @@ else
 fi    
 
 
-# The LAN IP can be any of the other 254 available /64 subnets. We need to 
+# The LAN IP can be any of the other 255 available /64 subnets. We need to 
 # compute that address by adding the LAN_SUBNET to the numerical value of the 
 # 4th hextet. Keep in mind, we need to do hexidecimal math.
 FOURTH_HEXTET=`awk -F ":" '{ print $4 }' <<< $DELGATED_PREFIX_SANS_MASK`
