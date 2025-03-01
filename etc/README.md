@@ -14,7 +14,7 @@ The files in this directory are expected to be installed in their corresponding 
 
 ## The bind Directory
 
-The bind directory in this project contains files for configuring the DNS (named.service) that are **not** dependent on the currently delegated prefix. The files may need to be edited once for a specific environment, but should not require editing after that. The directory contains the files `db.115.168.192.in-addr.arpa.zone`, `named.conf`, and `named.conf.options`. This assumes that the LAN subnet is `192.168.115.0/24`. If this is not the subnet of your LAN, edit the name of the db.115.x file and the `(/)opt/ipv6-configuration/db.home.zone.template` and `(/)opt/ipv6-configuration/named.conf.local.template` to the correct subdirectory. At the time of this writing, the version of bind9 is `1:9.18.30-0ubuntu0.24.04.2`. 
+The bind directory in this project contains files for configuring the DNS (named.service) that are **not** dependent on the currently delegated prefix. The files may need to be edited once for a specific environment, but should not require editing after that. The directory contains the files `db.115.168.192.in-addr.arpa.zone`, `named.conf`, and `named.conf.options`. This assumes that the LAN subnet is `192.168.115.0/24`. If this is not the subnet of your LAN, edit the name of the db.115.x file and the `(/)opt/ipv6-configuration/db.home.zone.template` and `(/)opt/ipv6-configuration/named.conf.local.template` to the correct subnet. At the time of this writing, the version of bind9 is `1:9.18.30-0ubuntu0.24.04.2`. 
 
 ## The netplan Directory
 
@@ -98,4 +98,4 @@ UseMTU=true
 
 ```
 
-Where we place our override configuration file is not arbitrary. In our example, the `etc/systemd/network/10-netplan-enp2s0.network.d/override.conf` file would be copied into the /etc directory with intermediate directories created as needed. The /etc/systemd/network portion is fixed, however, the 10-netplan-enp2s0.network.d directory must match the name of the runtime file in /run/systemd/network with a .d appended. Any files in that directory that end with .conf will be read and merged with the ones in the run directory. 
+The name of the subdirectory where we place the override configuration file is not arbitrary. In our example, the `etc/systemd/network/10-netplan-enp2s0.network.d/override.conf` file would be copied into the /etc directory with intermediate directories created as needed. The `/etc/systemd/network portion` is fixed, however, the `10-netplan-enp2s0.network.d` subdirectory must match the name of the runtime file (for the interface we are overriding) in `/run/systemd/network` with a `.d` appended. Any files in that directory that end with `.conf` will be read and merged with the ones in the run directory. The systemd.network man page lists other potential locations and file names for containing override parameters, but the .d directory with an *.conf file seems to be the only reliable way.
