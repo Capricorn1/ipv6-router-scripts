@@ -10,7 +10,7 @@ The files in this directory are expected to be installed in their corresponding 
 
 *   networkd-dispatcher: Contains the routable.d directory of "parent" scripts that, in turn, run scripts from the opt (/opt) directory when the routable network status changes. These scripts run in order by name whenever the system is booted, the DHCP lease from Verizon expires, or some other condition may have caused the delegated prefix to change.
 
-*   systemd: Exists only to house the network/10-netplan-enp2s0.network.d/override.conf directories and lone file. The override.conf contains the `SendRelease-false` DHCPv6 directive to NOT release the delegated prefix when the WAN interface is restarted. This results in the same delegated prefix being returned by Verizon's DHCP6 server for an extended period.
+*   systemd: Exists only to house the network/10-netplan-enp2s0.network.d/override.conf directories and lone file. The override.conf file contains the `SendRelease-false` DHCPv6 directive to NOT release the delegated prefix when the WAN interface is restarted. This results in the same delegated prefix being returned by Verizon's DHCP6 server for an extended period.
 
 # Details
 
