@@ -36,7 +36,7 @@ These files contain iptables and ip6tables rules to block specific IPs. These IP
 
 This directory contains the following scripts and templates: 
 
-*   ipv6-compute-and-configure.sh: Script that sets the WAN and LAN IP addresses for IPv6 based on the current prefix delegation received from the upstream DHCP server, Verizon's DHCP server. This script must be completed before the firewall scripts (see above) and other scripts in this directory can be run.
+*   ipv6-compute-and-configure.sh: Script that sets the WAN and LAN IP addresses for IPv6 based on the current prefix delegation received from the upstream DHCP server, Verizon's DHCP server. This script must be successfully completed before the firewall scripts (see above) and other scripts in this directory can be run.
 
 *   dhcp6-server-configure.sh: Edits the `kea-dhcp6.conf.template` with the current LAN IP address and subnet and stores the result in the `/etc/kea folder` as `kea-dhcp6.conf`. It then stops and restarts the Kea DHCP6 service.
 
