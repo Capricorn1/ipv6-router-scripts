@@ -65,7 +65,7 @@ total 20
 
 ## The systemd Directory
 
-This directory does not contain bash scripts. Instead, it contains one configuration file that sets the `SendRelease=false` parameter for the DHCPv6 client that talks to the Verizon DHCP6 server. That parameter tells our DHCP client not to send the release directive (DHCPRELEASE) when the WAN interface is shut down and restarted. Our router will get the same for some time because this is set. It is not guaranteed to be the same forever, but since setting this parameter, my router has gotten the same prefix delegation for months.
+This directory does not contain bash scripts. Instead, it contains one configuration file that sets the `SendRelease=false` parameter for the DHCPv6 client that talks to the Verizon DHCP6 server. That parameter tells our DHCP client not to send the release directive (DHCPRELEASE) when the WAN interface is shut down and restarted. Our router will get the same delegated prefix for some time because this is set. It is not guaranteed to be the same forever, but since setting this parameter, my router has gotten the same prefix delegation for months.
 
 The Netplan directory section mentioned that Netplan creates runtime files based on the name and contents of the YAML configuration file. In our example, the directories are found in the `/run/systemd/network` directory as the files `10-netplan-enp2s0.network` and `10-netplan-enp4s0.network`.
 
