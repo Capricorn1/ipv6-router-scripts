@@ -22,7 +22,7 @@ The `rules-dhcp-ip-from-shell.v4.sh` file contains the ruleset for IPv4 traffic.
 
 The Other Internal Servers & Ports list includes devices that may require special rules. Changes or additions made here must be correlated with the `db.home.zone.template`, `db.reverse.ipv6.arpa.zone.template`, and `kea-dhcp6.conf.template` files in the `opt/ipv6-configuration/` directory.
 
-The USER_CHAINS section defines rule chains for individual devices, classes of devices, and groups types of Internet traffic. For example, a pair of chains for a gaming PC - gaming_pc_in and gaming_pc_out - contain the firewall rules for traffic coming into the gaming PC and going out from the gaming PC, respectively. Another pair of chains - smartplugswitch_in and smartplugswitch_out - has rules for smart plugs and switches grouped together. Another chain, the lcl_dns_srv_to_trust_dns_srv chain, is used for rules from our local caching DNS server to our ISP's DNS servers and other trusted DNS servers on the internet.
+The USER_CHAINS section defines rule chains for individual devices, classes of devices, and groups types of Internet traffic. For example, a pair of chains for a gaming PC - gaming_pc_in and gaming_pc_out - contain the firewall rules for traffic coming into and going out from the gaming PC, respectively. Another pair of chains - smartplugswitch_in and smartplugswitch_out - have grouped rules for smart plugs and switches. Another chain, the lcl_dns_srv_to_trust_dns_srv chain, is used for rules from our local caching DNS server to our ISP's DNS servers and other trusted DNS servers on the internet.
 
 ### The rules-dhcp-ip-from-shell.v6.sh File
 
@@ -52,7 +52,7 @@ The WAN_IF and LAN_IF variables are set to the names of the WAN and LAN interfac
 
 This `dhcp6-server-configure.sh` script edits a templated version of the DHCP6 configuration file and writes out the result to the configured output path. It has WAN_IF and LAN_IF variables for the WAN and LAN interfaces, respectively. It also has variables indicating where to find the template and where to write the edited version. As the variables are currently set in the project, the template is read from `/opt/ipv6-configuration/kea-dhcp6.conf.template` and stored in `/etc/kea/kea-dhcp6.conf`. This script assumes that the DHCP6 server is the Kea DHCP6 server. The script will need to be modified if another DHCP server is used.
 
-The kea-dhcp6.conf.template file is the template that is edited into the kea-dhcp6.conf file. In my environment, nearly all IP addresses are handled by DHCP reservation. Whenever a new device is added or an existing one is removed/replaced, the `"reservations" ` section needs to be updated accordingly. The reservations in this example template are all by hardware (MAC) address (hw-address). For example, the entry below would assign the IPv6 address beginning with the current IPv6 subnet and ending with 500.
+The kea-dhcp6.conf.template file is the template that is edited into the kea-dhcp6.conf file. In my environment, nearly all IP addresses are handled by DHCP reservation. Whenever a new device is added, or an existing one is removed/replaced, the `"reservations" ` section needs to be updated accordingly. The reservations in this example template are all by hardware (MAC) address (hw-address). For example, the entry below would assign the IPv6 address beginning with the current IPv6 subnet and ending with 500.
 
 ```
                 {
@@ -69,6 +69,6 @@ The `local-dns-server-configure.sh` script edits the three template scripts with
 
 The `db.home.zone.template` file contains the DNS definition for the IPv4 and IPv6 addresses for every device in the system (that needs special firewall rules). It assumes the IPv4 subnet is `192.168.115.0/24`. That would need to be edited if a different subnet were used for IPv4. The `IPV6_PREFIX_64` string pattern will replace the current LAN /64 prefix (as set by the `ipv6-compute-and-configure.sh` script). The GENERATED_SERIAL string will be replaced with an increasing serial number based on the current time.
 
-The `db.reverse.ipv6.arpa.zone.template` file contains the reverse DNS PTR records for the IPv6 IP addresses. The PTR records should be updated accordingly whenever a new device is added or an existing one is removed/replaced. The GENERATED_SERIAL string will be replaced with an increasing serial number based on the current time.
+The `db.reverse.ipv6.arpa.zone.template` file contains the reverse DNS PTR records for the IPv6 IP addresses. The PTR records should be updated whenever a new device is added, or an existing one is removed/replaced. The GENERATED_SERIAL string will be replaced with an increasing serial number based on the current time.
 
 The `named.conf.local.template` file contains the names of the zone files to be used with the DNS server. This should not need to be changed for most environments, but it does contain a reference to the IPv4 subnet `192.168.115.0/24`. If a different subnet is to be used, two strings in the zone `115.168.192.in-addr.arpa` entry.
