@@ -2,7 +2,7 @@
 
 # Introduction:
 
-This project includes several bash scripts I use with Verizon Fios Internet to set up and maintain IPv6 functionality for a homemade firewall/router. It also touches on my IPv4 configuration, but to a lesser degree. These run on a relatively low-performance Intel-based PC (or mini-PC) using the Ubuntu Linux distro, which currently has version 24.04.2 LTS. These scripts expect systemd-networkd as the network manager (as opposed to NetworkManager).
+This project includes several bash scripts I use with Verizon Fios Internet to set up and maintain IPv6 functionality for a homemade firewall/router. It also touches on my IPv4 configuration but to a lesser degree. These run on a relatively low-performance Intel-based PC (or mini-PC) using the Ubuntu Linux distro, which currently has version 24.04.2 LTS. These scripts expect systemd-networkd as the network manager (as opposed to NetworkManager).
 
 Verizon's IPv6 implementation delegates a /56 prefix and nothing else. It is up to the router/firewall to divide the delegated prefix into (up to 256) internal LANs and external WANs. The goals of these scripts are:
 
@@ -35,7 +35,7 @@ The delegated prefix from Verizon could change every time the DHCP lease expires
 
 # Impetus
 
-I think I have a rigorous set of firewall rules for IPv4 that I have honed over the last 20 years. The rules depend on the LAN IP addresses distributed by the DHCP server. The IP addresses are assigned by the device's MAC address and grant well-defined port access to specific machines. These include inbound and outbound rules. I have included a subset of my complete set (with editing to sanitize them). With IPv4, setting up these rules was straightforward because I chose the LAN subnet and used NAT to map that subnet to the single IPv4 address assigned to the router. The LAN configuration did not change when the external WAN IP changed (which it rarely did). When I started to support IPv6, the consensus was that it was **Bad®** to use NAT when an entire IPv6 /56 prefix is delegated to every customer. That's great, but since the LAN (and WAN) subnet changes every time the prefix changes, _hardcoding_ the LAN configuration for DHCP and DNS is impossible. Since I wanted to be able to apply the firewall rules for IPv6 in the same manner, I needed to be flexible about how those services get configured.
+I think I have a rigorous set of firewall rules for IPv4 that I have honed over the last 20 years. The rules depend on the LAN IP addresses distributed by the DHCP server. The IP addresses are assigned by the device's MAC address and grant well-defined port access to specific machines. These include inbound and outbound rules. I have included a subset of my complete set (with editing to sanitize them). With IPv4, setting up these rules was straightforward because I chose the LAN subnet and used NAT to map that subnet to the single IPv4 address assigned to the router. The LAN configuration did not change when the external WAN IP changed (which it rarely did). When I started to support IPv6, the consensus was that using NAT was **Bad®** when an entire IPv6 /56 prefix is delegated to every customer. That's great, but since the LAN (and WAN) subnet changes every time the prefix changes, _hardcoding_ the LAN configuration for DHCP and DNS is impossible. Since I wanted to be able to apply the firewall rules for IPv6 in the same manner, I needed to be flexible about how those services get configured.
 
 # Project Structure
 
@@ -58,4 +58,4 @@ drwxr-xr-x   2 root root  4096 Feb 14 14:01 /opt/ipv6-configuration
 
 ```
 
-Examine each of the subdirectories listed above for documenation of the files in that directory.
+Examine each subdirectory listed above for documentation of the files in that directory.
