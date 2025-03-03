@@ -16,7 +16,7 @@ The files in this directory are expected to be installed in their corresponding 
 
 ## The bind Directory
 
-The bind directory in this project contains files for configuring the DNS (named.service) that are **not** dependent on the currently delegated prefix. The files may need to be edited once for a specific environment, but should not require editing after that. The directory contains the files `db.115.168.192.in-addr.arpa.zone`, `named.conf`, and `named.conf.options`. This assumes that the LAN subnet is `192.168.115.0/24`. If this is not the subnet of your LAN, edit the name of the db.115.x file and the `(/)opt/ipv6-configuration/db.home.zone.template` and `(/)opt/ipv6-configuration/named.conf.local.template` to the correct subnet. At the time of this writing, the version of bind9 is `1:9.18.30-0ubuntu0.24.04.2`. 
+The bind directory in this project contains files for configuring the DNS (named.service) that are **not** dependent on the currently delegated prefix. The files may need to be edited once for a specific environment, but should not require editing after that. The directory contains the files `db.115.168.192.in-addr.arpa.zone`, `named.conf`, and `named.conf.options`. This assumes that the LAN subnet is `192.168.115.0/24`. If this is not the subnet of your LAN, edit the name of the db.115.x file and the `(/)opt/ipv6-configuration/db.home.zone.template` and `(/)opt/ipv6-configuration/named.conf.local.template` to the correct subnet. The other files needed by the named.service are created dynamically using templates and a script in the opt/ipv6-configuration directory of this project. At the time of this writing, the version of bind9 is `1:9.18.30-0ubuntu0.24.04.2`. 
 
 ## The netplan Directory
 
