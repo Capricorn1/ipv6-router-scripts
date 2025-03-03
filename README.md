@@ -39,6 +39,20 @@ I think I have a rigorous set of firewall rules for IPv4 that I have honed over 
 
 # Project Structure
 
+## Expected Applications
+
+These scripts are written to support specific packages. This includes:
+
+*    bind9 (named, named.service) - Currently version 9.18.30
+*    systemd-networkd - Used as the network manager (instead of NetworkManager) (Installed with Ubuntu)
+*    networkd-dispatcher - Currently version 2.2.4-1
+*    iptables/ip6tables - Currently version 1.8.10 (as an add-on to netfilter)
+*    Kea DHCP6 (and DHCP4) DNS server - Currently version 2.4.1
+
+Also, the Uncomplicated Firewall (ufw, ufw.service) should be stopped and disabled.
+
+## File Structure
+
 The project structure is set up to mimic the location of the files relative to the root (/) directory. The first two directories are `etc` and `opt`, and the files within those directories should be installed in the `/etc` and `/opt` directories, respectively. If the /opt directory did not previously exist, it should be created with root as the owner and group and with 755 (or 775) for the access mode. The following code block shows the ownership and permissions for the directories in which files from this project should be placed.
 
 ```javascript
