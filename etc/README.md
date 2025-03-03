@@ -52,7 +52,7 @@ The name of this file is arbitrary, but it will be used to create runtime networ
 
 ## The networkd-dispatcher Directory
 
-This directory contains the `routable.d` subdirectory. The scripts in that subdirectory are meant to be copied into the actual `/etc/networkd-dispatcher/routable.d` directory. The `networkd-dispatcher.service` calls the scripts in that directory (in order by name) when the network state enters the routable state. For IPv6 networking, this occurs when a prefix is delegated, such as when the router is rebooted or `netplan apply` is executed. These are "parent" scripts that, in turn, call scripts in the `(/)opt/ipv6-configuration` directory to configure the IPv6 WAN and LAN IP addresses, the IPv4 and IPv6 firewall rules, the DHCP6 configuration, and the DNS configuration. These scripts check to make sure they are being called when the WAN interface becomes routable. Otherwise, the scripts would be call twice - once for the LAN and WAN interfaces becoming routable. On my system, the LAN interface becomes routable before the WAN interface (and before the prefix delegation has occurred). The script names and order in which the scripts are run is:
+This directory contains the `routable.d` subdirectory. The scripts in that subdirectory are meant to be copied into the actual `/etc/networkd-dispatcher/routable.d` directory. The `networkd-dispatcher.service` calls the scripts in that directory (in order by name) when the network state enters the routable state. For IPv6 networking, this occurs when a prefix is delegated, such as when the router is rebooted or `netplan apply` is executed. These are "parent" scripts that, in turn, call scripts in the `(/)opt/ipv6-configuration` directory to configure the IPv6 WAN and LAN IP addresses, the IPv4 and IPv6 firewall rules, the DHCP6 configuration, and the DNS configuration. These scripts check to ensure they are being called when the WAN interface becomes routable. Otherwise, the scripts would be called twice - once for the LAN and another time for the WAN interfaces becoming routable. On my system, the LAN interface becomes routable before the WAN interface (and before the prefix delegation has occurred). The script names and order in which the scripts are run are:
 ```
 root@fw2404:~/Projects/ipv6-router-scripts/etc/networkd-dispatcher/routable.d$ ll
 total 20
@@ -65,9 +65,9 @@ total 20
 
 ## The systemd Directory
 
-This directory does not contain bash scripts. Instead it contains one configuration file that sets the `SendRelease=false` parameter for the DHCPv6 client that talks to the Verizon DHCP6 server. That parameter tells our DHCP client to not send the release directive (DHCPRELEASE) when the WAN interface is shut down and restarted. For some time period, our router will get the same because this is set. It is not guaranteed to be the same forever, but since setting this parameter my router has gotten the same prefix delegation for months.
+This directory does not contain bash scripts. Instead, it contains one configuration file that sets the `SendRelease=false` parameter for the DHCPv6 client that talks to the Verizon DHCP6 server. That parameter tells our DHCP client not to send the release directive (DHCPRELEASE) when the WAN interface is shut down and restarted. Our router will get the same for some time because this is set. It is not guaranteed to be the same forever, but since setting this parameter, my router has gotten the same prefix delegation for months.
 
-The netplan directory section above mentioned that Netplan creates runtime files that are based on the name and contents of the YAML configuration file. In our example, the directories are found in the `/run/systemd/network` directory as the files `10-netplan-enp2s0.network` and `10-netplan-enp4s0.network`.
+The Netplan directory section mentioned that Netplan creates runtime files based on the name and contents of the YAML configuration file. In our example, the directories are found in the `/run/systemd/network` directory as the files `10-netplan-enp2s0.network` and `10-netplan-enp4s0.network`.
 
 
 ```
@@ -98,7 +98,7 @@ DNS=2001:4860:4860::8844
 RouteMetric=100
 UseMTU=true
 ```
-The name of the subdirectory where we place the override configuration file is not arbitrary. In our example, the `etc/systemd/network/10-netplan-enp2s0.network.d/override.conf` file would be copied into the /etc directory with intermediate directories created as needed. The `/etc/systemd/network portion` is fixed, however, the `10-netplan-enp2s0.network.d` subdirectory must match the name of the runtime file (for the interface we are overriding) in `/run/systemd/network` with a `.d` appended. Any files in that directory that end with `.conf` will be read and merged with the ones in the run directory. The systemd.network man page lists other potential locations and file names for containing override parameters, but the .d directory with an *.conf file seems to be the only reliable way. The contents of the override file are:
+The subdirectory's name where we place the override configuration file is not arbitrary. In our example, the `etc/systemd/network/10-netplan-enp2s0.network.d/override.conf` file would be copied into the /etc directory with intermediate directories created as needed. The `/etc/systemd/network portion` is fixed; however, the `10-netplan-enp2s0.network.d` subdirectory must match the name of the runtime file (for the interface we are overriding) in `/run/systemd/network` with a `.d` appended. Any files in that directory that end with `.conf` will be read and merged with the ones in the run directory. The systemd.network man page lists other potential locations and file names for containing override parameters, but the .d directory with an *.conf file seems to be the only reliable way. The contents of the override file are:
 
 ```
 root@fw2404:~/Projects/ipv6-router-scripts/etc/systemd/network/10-netplan-enp2s0.network.d$ more override.conf
