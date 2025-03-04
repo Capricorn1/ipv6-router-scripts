@@ -36,7 +36,7 @@ These files contain iptables and ip6tables rules to block specific IPs. These IP
 
 This directory contains the following scripts and templates: 
 
-*   ipv6-compute-and-configure.sh: Script that sets the WAN and LAN IP addresses for IPv6 based on the current prefix delegation received from the upstream DHCP server, Verizon's DHCP server. This script must be successfully completed before the firewall scripts (see above) and other scripts in this directory can be run.
+*   ipv6-compute-and-configure.sh: Script that sets the WAN and LAN IP addresses for IPv6 based on the current prefix delegation received from the upstream DHCP server, Verizon's DHCP server. This script must successfully complete before the firewall scripts (see above) and the other scripts in this directory can be run.
 
 *   dhcp6-server-configure.sh: Edits the `kea-dhcp6.conf.template` with the current LAN IP address and subnet and stores the result in the `/etc/kea folder` as `kea-dhcp6.conf`. It then stops and restarts the Kea DHCP6 service.
 
@@ -46,7 +46,7 @@ This directory contains the following scripts and templates:
 
 This script sets the WAN and LAN IP addresses for IPv6. It does so by retrieving the current delegated prefix from the routing table. Our (systemd-networkd) DHCP client solicits for the upstream DHCP server, which will resolve to one of Verizon's DHCP servers. As a part of that exchange, we get assigned a prefix delegation. This script must be completed before the firewall scripts (see above) and other scripts in this directory will run successfully. 
 
-The WAN_IF and LAN_IF variables are set to the names of the WAN and LAN interfaces, respectively. (They should match the names the `ip a` command returned.) These may need to be edited for your environment. The script also has a variable for EXPECTED_PREFIX_LENGTH, which is set to *56*. While this is theoretically a variable, the script will likely fail if it is set to any other value.
+The WAN_IF and LAN_IF variables are set to the names of the WAN and LAN interfaces, respectively. (They should match the names the `ip a` command returned.) These may need to be edited for your environment. The LAN_SUBNET script variable allows for setting which of the other /64 subnets to use for the LAN. The WAN subnet will always be the zero subnet. The LAN_SUBNET can be from "1" to "ff" (in hexadecimal). The script also has a variable for EXPECTED_PREFIX_LENGTH, which is set to *56*. While this is theoretically a variable, the script will likely fail if it is set to any other value.
 
 ### The dhcp6-server-configure.sh Script and kea-dhcp6.conf.template File
 
