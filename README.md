@@ -72,4 +72,4 @@ drwxr-xr-x   2 root root  4096 Feb 14 14:01 /opt/ipv6-configuration
 
 ```
 
-Examine each subdirectory listed above for documentation of the files in that directory.
+Examine each subdirectory in the project for documentation of the files in that directory.
