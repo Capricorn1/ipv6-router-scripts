@@ -2201,10 +2201,10 @@ if [ "$RUN_SILENTLY" != "1" ]; then
 	echo -n "ping (in), "
 fi
 if [ "$USE_CONNECTION_TRACKING" = "1" ]; then
-	$IP6TABLES -A ext_if_icmp_in -p icmpv6 -s $INTERNET_IP --icmpv6-type echo-request -m state --state NEW -j ACCEPT
+	$IP6TABLES -A ext_if_icmp_in -p icmpv6 --icmpv6-type echo-request -m state --state NEW -j ACCEPT
 fi
-$IP6TABLES -A ext_if_icmp_in -p icmpv6 --icmpv6-type echo-request -s $INTERNET_IP -j ACCEPT
-$IP6TABLES -A ext_if_icmp_out -p icmpv6 --icmpv6-type echo-reply -d $INTERNET_IP -j ACCEPT
+$IP6TABLES -A ext_if_icmp_in -p icmpv6 --icmpv6-type echo-request -j ACCEPT
+$IP6TABLES -A ext_if_icmp_out -p icmpv6 --icmpv6-type echo-reply -j ACCEPT
 
 # Destination Unreachable Type 3 
 if [ "$RUN_SILENTLY" != "1" ]; then
